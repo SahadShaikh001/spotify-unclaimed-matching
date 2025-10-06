@@ -9,14 +9,12 @@ CLIENT_SECRET = "113bf6c45ce240c892a43c85f3d80840"
 auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
-
 def get_artist_id(artist_name: str) -> str:
     """Search and return Spotify artist ID."""
     results = sp.search(q=artist_name, type="artist", limit=1)
     if not results['artists']['items']:
         raise ValueError(f"Artist '{artist_name}' not found on Spotify.")
     return results['artists']['items'][0]['id']
-
 
 def get_artist_tracks(artist_id: str) -> pd.DataFrame:
     """Fetch all tracks from artist albums/singles with ISRC codes."""
@@ -36,3 +34,4 @@ def get_artist_tracks(artist_id: str) -> pd.DataFrame:
                 "isrc": isrc
             })
     return pd.DataFrame(tracks)
+
